@@ -1,5 +1,5 @@
 <script setup>
-import { getProducts, createProduct } from '../api/products';
+import { getProducts, createProduct, deleteProducts } from '../api/products';
 
 
 </script>
@@ -30,7 +30,11 @@ import { getProducts, createProduct } from '../api/products';
             },
             async submitCreateProduct(){
                 await this.addProduct(this.newProduct);
-            }
+            },
+            async removeProducts(id){
+                await deleteProducts(id);
+                await this.loadProducts();
+            },
         },
         mounted() {
             this.loadProducts();
@@ -54,6 +58,9 @@ import { getProducts, createProduct } from '../api/products';
                 <td class="">{{ product.name }}</td>
                 <td class="">{{ product.price }}</td>
                 <td class="">{{ product.inStock ? 'Igen' : 'Nem' }}</td>
+                <td class="">
+                    <button type="button" @click="removeProducts(product.id)">Torles</button>
+                </td>
             </tr>
         </tbody>
         
@@ -65,6 +72,6 @@ import { getProducts, createProduct } from '../api/products';
         <input type="number" name="price" v-model="this.newProduct.price"/>
         <label for="inStock">Instock</label>
         <input type="checkbox" name="inStock" v-model="this.newProduct.inStock"><br>
-        <button type="submi">Letrhozas</button>
+        <button type="submit">Letrhozas</button>
     </form>
 </template>
